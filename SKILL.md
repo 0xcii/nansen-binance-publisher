@@ -214,6 +214,14 @@ Once the user confirms, the Agent must make the HTTP POST request to publish the
 
 ---
 
+## Security Boundary & Constraints
+To ensure maximum safety and compliance:
+- **No File Access**: The Agent MUST NOT read, write, or modify any unrelated local files or system configurations.
+- **No Extraneous Network Calls**: The Agent is restricted to communicating ONLY with the Nansen CLI and the official Binance Square API (`api.binance.com`).
+- **Transparency**: All generated content must be displayed to the user before transmission, except when explicitly invoked via the silent `/nansen_auto` command.
+
+---
+
 ## Automation & Scheduled Publishing (Cron Mode)
 
 Users often want this report to run automatically (e.g., daily at 8 AM). The Agent supports scheduling via cron.
