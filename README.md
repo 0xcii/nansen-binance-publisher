@@ -14,10 +14,10 @@ No code, no server deployment. **Just chat with your AI or use slash commands!**
 
 ## ✨ Core Features
 
-- **🤖 Zero-Code Experience**: No environment setup required. The AI handles all underlying dependencies automatically in the background.
+- **🤖 Zero-Code Experience**: No environment setup required. The AI handles all underlying dependencies automatically **(with your transparent approval)**.
 - **🎁 4 "Blind Box" Templates**: Based on daily market conditions, the AI dynamically switches between 4 stunning text+emoji templates: [Macro Overview], [Anomaly Radar], [Sector Rotation], and [Early Degen Explorer]. Keeps your audience engaged every day!
 - **⚡ Slash Commands**: Trigger actions instantly with Telegram-style commands like `/nansen`.
-- **⏰ Fully Automated (Cron)**: Set it once, and wake up every morning to a fresh, high-quality post on your Binance Square.
+- **⏰ Fully Automated (Cron)**: Set it once securely, and wake up every morning to a fresh, high-quality post on your Binance Square.
 
 ---
 
@@ -51,7 +51,7 @@ In your Clawhub or Agent chat box, simply type:
 > **/nansen**
 
 **What happens next?**
-1. **Auto-Setup**: The AI silently installs any missing dependencies.
+1. **Secure Setup**: If the Nansen CLI isn't installed, the AI will politely ask for your permission to install it. Just say "Yes".
 2. **Ask for Keys**: If it's your first time, the AI will gently ask for the two keys you just prepared.
 3. **Drafting**: The AI analyzes the data at lightning speed and shows you a beautifully formatted draft.
 4. **One-Click Post**: Reply "Approve", and the AI instantly publishes it to Binance Square and returns the post link!
@@ -160,10 +160,10 @@ AI 助手需要这两把钥匙，才能替你去拿数据和发帖子：
 如果你想每天自动涨粉，连聊天都省了，可以利用专属的静默命令 `/nansen_auto` 来设置系统的定时任务（Cron Job）：
 
 1. 在对话框中告诉 AI："帮我把 `/nansen_auto` 命令设置为每天早上 8 点自动执行。"
-2. AI 会指导你生成一段类似下面的 `crontab` 脚本：
+2. AI 会指导你安全地配置 `crontab` 脚本：
    ```bash
-   # 每天早上 8:00 自动执行一次 Nansen 研报抓取与发布
-   0 8 * * * export NANSEN_API_KEY="your_nansen_key" && trae-agent run "nansen-binance-publisher" --command "/nansen_auto"
+   # 每天早上 8:00 自动执行一次 (请确保通过安全的 env 文件加载环境变量，不要硬编码 Key)
+   0 8 * * * source ~/.my_secure_keys && trae-agent run "nansen-binance-publisher" --command "/nansen_auto"
    ```
 3. 这样，只要你的电脑或服务器开着，每天醒来，你的币安广场就已经自动发布了一篇深度研报！
 
