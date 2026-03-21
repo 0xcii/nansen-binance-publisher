@@ -61,13 +61,11 @@ The Agent must execute a series of Nansen CLI commands to capture macro narrativ
    nansen research portfolio holdings --address smart-money --chain ethereum --limit 5 --pretty
    ```
    *(Note: Adjust the CLI parameters if the exact syntax for portfolio/holdings differs based on `nansen schema`)*
-4. **Specific Token Anomalies (e.g., checking a trending token's holders)**:
-   ```bash
-   # Agent can optionally query a specific token if it appeared in the netflow
-   nansen research token holders --token <SYMBOL> --smart-money --chain ethereum --limit 3 --pretty
-   ```
 
-*(Note: If any command fails or returns empty, gracefully skip that section or replace it with alternative available data from Nansen CLI).*
+**Error Handling during Fetch:**
+- If the CLI returns `UNAUTHORIZED`: Stop and prompt the user to re-verify their NANSEN_API_KEY.
+- If the CLI returns `CREDITS_EXHAUSTED`: Stop all calls immediately and inform the user to check their Nansen dashboard.
+- *(Note: If any command fails or returns empty, gracefully skip that section or replace it with alternative available data from Nansen CLI).*
 
 ### Step 3: Data Synthesis & Content Optimization (Template Selection)
 The Agent must synthesize the data into a professional report. 
