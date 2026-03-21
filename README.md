@@ -75,10 +75,10 @@ For power users, this skill comes with built-in quick commands:
 Want to grow your followers hands-free? Use the `/nansen_auto` command to set up a Cron Job:
 
 1. Tell your AI: "Help me schedule the `/nansen_auto` command to run every day at 8 AM."
-2. The AI will guide you to add a `crontab` script like this:
+2. The AI will guide you to add a `crontab` script securely:
    ```bash
-   # Runs every day at 08:00 AM
-   0 8 * * * export NANSEN_API_KEY="your_nansen_key" && trae-agent run "nansen-binance-publisher" --command "/nansen_auto"
+   # Runs every day at 08:00 AM (Ensure your keys are loaded from a secure env file)
+   0 8 * * * source ~/.my_secure_keys && trae-agent run "nansen-binance-publisher" --command "/nansen_auto"
    ```
 3. Boom! As long as your PC/Server is on, you'll have a deep-dive crypto report posted automatically every morning.
 
