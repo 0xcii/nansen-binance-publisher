@@ -76,114 +76,143 @@ The Agent must synthesize the data into a professional report.
 - **NO MARKDOWN:** Binance Square's API `bodyTextOnly` does NOT support Markdown. You MUST NOT use syntax like `**bold**`, `*italic*`, or `### headers`. Use emojis and plain text spacing only.
 
 **RANDOM TEMPLATE SELECTION:**
-To keep the content fresh, the Agent MUST randomly choose among **FOUR** different templates based on what data is most interesting today.
+To keep the content fresh, the Agent MUST randomly choose among **FIVE** different deeply analytical templates based on what data is most interesting today. If a specific project is queried, default to Template E.
 
-#### Template A: The Comprehensive Overview ()
-*Use this when market data is balanced and you want to show a macro view.*
+#### Template A: The Macro Overview (宏观盘面与资金流动)
+*Use this when market data is balanced and you want to show a macro fund flow view.*
 
 ```text
- 
+📊 链上宏观盘面与资金流动日报
 
- 
-*(Agent: Synthesize data to write a 2-3 sentence macro overview. e.g., "...")*
-
----
-
- 
- : 
-- $TOKEN_A ( +$1.2M): *(Brief AI analysis)*
-- $TOKEN_B ( +$850K)
-
- : 
-- $TOKEN_X ( -$2.1M): *(Brief AI analysis)*
-
- Smart Money 
-- : [Contract_Name] 24H
-- :  Smart Money  $TOKEN_C
+🧠 核心宏观洞察
+*(Agent: Synthesize netflow data to write a macro overview. e.g., "今日链上资金呈现明显的『避险』特征，大户正在向稳定币转移...")*
 
 ---
- DYOR.
-#SmartMoney #Crypto # #BinanceSquare
+
+🌊 资金净流入榜单 (Smart Money 正在买什么)
+🟢 强势吸筹: 
+- $TOKEN_A (净流入 +$1.2M): *(Brief AI analysis on why)*
+- $TOKEN_B (净流入 +$850K)
+
+🔴 资金流出榜单 (获利盘在抛售什么)
+- $TOKEN_X (净流出 -$2.1M): *(Brief AI analysis)*
+
+🎯 总结与推演
+*(Agent: Provide a 1-sentence prediction for tomorrow based on these flows.)*
+
+---
+💡 链上数据不代表未来走势，DYOR.
+#SmartMoney #Crypto #链上分析 #BinanceSquare
 ```
 
-#### Template B: The Deep Dive Anomaly ()
+#### Template B: The Deep Dive Anomaly (数据异动雷达)
 *Use this when you spot a massive outlier, a strange token movement, or highly suspicious Smart Money behavior.*
 
 ```text
- : $TOKEN_NAME 
+🚨 链上数据异动雷达: $TOKEN_NAME 资金异动！
 
- 
-*(Agent: Hook the reader by explaining the anomaly immediately. e.g., " $XYZ  Smart Money 24 $5.4M")*
-
----
-
- 
-- : +$XX.X 
-- Smart Money :  X 
-- : [Token_Sector]
-
- AI 
-*(Agent: Dive deep into THIS SPECIFIC token or contract. Why are they buying? Provide a critical analysis based on the specific anomalies.)*
-- 1: [Detail from data]
-- 2: [Detail from data]
-
- 
+🕵️‍♂️ 异动警报
+*(Agent: Hook the reader by explaining the anomaly immediately. e.g., "在最新的数据中发现，一个不知名代币 $XYZ 正在被 Smart Money 疯狂吸筹，24小时净流入高达 $5.4M！")*
 
 ---
- DYOR.
+
+📈 核心异动数据解构
+- 净流入规模: +$XX.X 万
+- Smart Money 参与度: 共有 X 个聪明钱地址建仓。
+- 异动板块: [Token_Sector]
+
+🧠 深度追踪与行为分析
+*(Agent: Dive deep into THIS SPECIFIC token. Why are they buying? Provide a critical analysis based on the specific anomalies.)*
+- 异动特征1: [Detail from data]
+- 异动特征2: [Detail from data]
+
+⚠️ 风险提示: 此类异常吸筹往往伴随极高波动，可能存在老鼠仓行为，请控制仓位。
+
+---
+💡 链上数据不代表未来走势，DYOR.
 #SmartMoney #Crypto #BinanceSquare
 ```
 
-#### Template C: The Sector Rotation Focus ()
-*Use this when you notice money flowing heavily into or out of a specific SECTOR (e.g., AI, GameFi, Memes).*
+#### Template C: The Sector Rotation Focus (热门叙事与板块轮动)
+*Use this when you notice money flowing heavily into or out of a specific SECTOR (e.g., AI, GameFi, Memes, DeSci).*
 
 ```text
- : [Sector_Name] 
+🔄 热门叙事与板块轮动追踪: [Sector_Name] 赛道正在爆发？
 
- 
-*(Agent: Focus the narrative purely on a specific sector. e.g., "AI ...")*
+🔥 赛道热度扫描
+*(Agent: Focus the narrative purely on a specific sector. e.g., "AI 赛道今日迎来链上资金的大规模换手，旧龙头资金流出，而新叙事正在吸引聪明钱...")*
 
 ---
 
- 
-  (): 
-- $TOKEN_A: 
-- $TOKEN_B: 
+📊 板块内资金博弈详解
+🟢 领涨龙头 (吸血效应): 
+- $TOKEN_A: 净流入居首，巨鲸持续买入。
+- $TOKEN_B: 持有者结构趋于集中。
 
-  (): 
-- $TOKEN_X: Smart Money 
+🔴 资金流出 (高位兑现): 
+- $TOKEN_X: 遭遇抛压，Smart Money 减仓。
 
- AI 
-*(Agent: Predict if this sector rotation is a short-term hype or a long-term trend based on the holding period of the smart money.)*
+💡 叙事周期推演
+*(Agent: Predict if this sector rotation is a short-term hype or a long-term trend.)*
 
 ---
 #SmartMoney #SectorRotation #Crypto #BinanceSquare
 ```
 
-#### Template D: The Degen Contract Explorer ()
+#### Template D: The Degen Explorer (热门早期合约/探狗)
 *Use this heavily relying on the `profiler contract-interactions` data to find very early stage projects or new NFTs.*
 
 ```text
- : Smart Money 
+🐾 链上金狗前瞻: Smart Money 正在高频交互什么？
 
- 
-*(Agent: " 24 ...")*
+🔍 前线侦察
+*(Agent: "抛开已经拉飞的代币，我们来看看过去 24 小时，链上最聪明的资金都在往哪些新合约里钻...")*
 
 ---
 
- 
-1 [Contract_Name_1]
-- : 24H X 
-- AI :  DeFi /
+🔥 高频交互合约榜单
+1️⃣ [Contract_Name_1]
+- 交互特征: 过去24H新增 X 次交互。
+- 资金研判: 疑似新型 DeFi 协议/土狗盘，处于极早期阶段。
 
-2 [Contract_Name_2]
-- : 
-- AI : [Brief description of what this contract might be doing].
+2️⃣ [Contract_Name_2]
+- 交互特征: 资金交互频率稳定上升。
+- 资金研判: [Brief description of what this contract might be doing].
 
-  RUG
+⚠️ 早期合约风险极高，极易遇到貔貅盘或 RUG，仅作链上行为观察，绝非投资建议！
 
 ---
 #SmartMoney #Degen #Onchain #BinanceSquare
+```
+
+#### Template E: The Comprehensive Project Deep Dive (单个项目全面透视)
+*Use this when the user asks about a SPECIFIC project, or when one project dominates the daily data. It provides a 360-degree view of a single entity.*
+
+```text
+🔬 链上项目深度透视: 全面解析 [Project_Name]
+
+📖 项目基本面速览
+*(Agent: 1-2 sentences explaining what the project does based on your knowledge or Nansen tags.)*
+
+---
+
+📊 链上真实数据表现
+- Smart Money 参与度: [X] 个聪明钱地址已建仓
+- 资金净流入 (24h/7d): +$[X]
+- 活跃交互合约: [Contract/Dex pairs if any]
+
+🧠 核心面与技术面推演
+*(Agent: Provide a structured analysis of the project's current state based on the data.)*
+- 市场信号: 数据显示目前资金... (e.g., 呈现明显的早期吸筹特征)
+- 潜在催化剂: (What might be driving this flow? e.g., upcoming mainnet, airdrop snapshot)
+
+🛡️ 风险与阻力位分析
+- 筹码集中度: (Are top holders selling?)
+- 流动性风险: (Is the DEX liquidity too thin?)
+
+---
+💡 链上数据不代表未来走势，DYOR.
+#SmartMoney #CryptoAnalysis #BinanceSquare
 ```
 
 ### Step 4: User Confirmation
