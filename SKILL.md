@@ -46,12 +46,22 @@ When the user asks to generate a daily report (e.g., " Nansen "), the Agent MUST
 - Verify if `NANSEN_API_KEY` and `X_SQUARE_OPENAPI_KEY` are available in the environment variables.
 - If missing, prompt the user to provide them gracefully, attaching the affiliate links mentioned above. DO NOT suggest saving keys in plaintext files.
 
-### Step 2: Fetch Multi-Dimensional On-Chain Data
+### Step 2: Context & On-Chain Data Fetching
+The Agent must gather both off-chain context and on-chain reality to form a complete picture.
+
+**IF THE USER PROVIDES A URL OR CUSTOM TOPIC:**
+1. **Web Context First:** Use your native web browsing/search capabilities to visit the provided URL (e.g., Twitter/X link) or search the web for the project/topic. Extract the core narrative, recent news, or social sentiment.
+2. **On-Chain Verification:** Translate the off-chain narrative into a Nansen CLI query.
+
+**NANSEN CLI EXECUTION (MANDATORY TOOL USAGE):**
 The Agent must execute a series of Nansen CLI commands to capture macro narratives, fund flows, project analysis, and anomalies.
 
 **CRITICAL ANTI-HALLUCINATION RULE:**
-The Agent MUST physically execute the CLI commands. You are FORBIDDEN from guessing, simulating, or generating fake data. If the CLI returns no data or fails for a specific project/query, report the lack of data to the user and **ABORT** the report generation. DO NOT proceed to Step 3 and DO NOT generate "fluff" or empty analysis without REAL JSON output from `nansen-cli`.
+1. **Tool Execution is Required:** You MUST use your native `bash`, `execute_command`, or `terminal` tool to physically run the `nansen` CLI commands below. 
+2. **Zero-Tolerance for Fake Data:** You are FORBIDDEN from guessing, simulating, or generating placeholder data. 
+3. **Data Verification Step:** Before generating any report, you must verify that you have successfully executed the CLI tool and received REAL JSON output. If the CLI returns no data, fails, or if you cannot execute the command, report the error to the user and **ABORT** the report generation entirely. DO NOT proceed to Step 3 and DO NOT generate "fluff" or empty analysis.
 
+**Core Commands to Execute (via your terminal tool):**
 1. **Macro Fund Flows (Smart Money Netflow)**:
    ```bash
    nansen research smart-money netflow --chain ethereum --limit 5 --timeframe 24h --pretty
@@ -81,7 +91,7 @@ The Agent must synthesize the data into a professional, highly engaging, and bea
 - **ANTI-HALLUCINATION RULE:** NEVER make up data. If Nansen CLI returns no data for a specific query, you MUST gracefully abort and inform the user.
 
 **DAILY RANDOM TEMPLATE SELECTION:**
-To ensure Binance Square followers receive fresh and diverse content, the Agent MUST randomly select one of the following **FIVE** deeply analytical templates each day. If the user asks for a specific project, default to Template 5.
+To ensure Binance Square followers receive fresh and diverse content, the Agent MUST randomly select one of the following **SIX** deeply analytical templates each day. If the user asks for a specific project, default to Template 5. If the user provides a URL or custom context, ALWAYS use Template 6.
 
 #### Template 1: 🌍 宏观盘面与大盘趋势分析 (Macro Overview)
 *Use this to provide a top-down view of the market based on Smart Money behavior.*
@@ -237,6 +247,30 @@ To ensure Binance Square followers receive fresh and diverse content, the Agent 
 
 💡 链上数据不代表未来走势，投资需谨慎，DYOR.
 #项目分析 #价值投资 #链上投研 #BinanceSquare
+```
+
+#### Template 6: 🌐 全能定制分析与链上交叉验证 (Universal Custom & Cross-Validation)
+*Use this ONLY when the user provides a specific URL (like Twitter/X) or asks a highly specific custom question. This merges web context with Nansen data.*
+
+```text
+🌐 Nansen 多维解析：[User_Topic_or_Project]
+
+📰 消息面与基本面提取 (Off-Chain Context)
+[Agent: Summarize what you found on the web/Twitter link. e.g., 近期推特上关于该项目的讨论热度飙升，主要利好集中在...]
+
+---
+
+📊 链上数据交叉验证 (On-Chain Reality via Nansen)
+[Agent: Now use the Nansen data to verify the hype! Are they actually buying?]
+- 巨鲸动作: [e.g., 尽管社交媒体情绪高涨，但链上数据显示 Smart Money 正在逢高出货，净流出达 $X.XM]
+- 合约交互: [e.g., 新用户交互确实出现了爆发式增长]
+
+⚖️ 综合研判 (Final Verdict)
+[Agent: Merge the off-chain narrative and on-chain data to provide a master-level insight. e.g., 消息面的利好已经被部分消化，链上资金出现分歧，建议等待回调后再行观察。]
+
+---
+💡 链上数据与社交情绪不代表未来走势，投资需谨慎，DYOR.
+#链上数据 #多维分析 #Web3 #BinanceSquare
 ```
 
 ### Step 4: User Confirmation
