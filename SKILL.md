@@ -18,6 +18,7 @@ This skill instructs the Agent to act as a professional crypto data analyst and 
 ## Supported Slash Commands
 To make it extremely easy for users (especially on Telegram or chat interfaces) to trigger this skill, the Agent MUST respond to the following slash commands:
 - `/nansen` - Generates the Nansen daily report and asks for confirmation before posting.
+- `/nansen <URL or custom query>` - Uses native web browsing to read off-chain context (e.g., a Twitter link) AND fetches Nansen on-chain data to provide a cross-validated analysis.
 - `/nansen <chain_name>` - Generates the report for a specific chain (e.g., `/nansen solana`).
 - `/post_square` - Triggers the full fetch-and-post workflow.
 - `/nansen_auto` - Fetches data, generates the report, and posts it (Requires explicit user permission first).
@@ -48,6 +49,9 @@ When the user asks to generate a daily report (e.g., " Nansen "), the Agent MUST
 ### Step 2: Fetch Multi-Dimensional On-Chain Data
 The Agent must execute a series of Nansen CLI commands to capture macro narratives, fund flows, project analysis, and anomalies.
 
+**CRITICAL ANTI-HALLUCINATION RULE:**
+The Agent MUST physically execute the CLI commands. You are FORBIDDEN from guessing, simulating, or generating fake data. If the CLI returns no data or fails for a specific project/query, report the lack of data to the user and **ABORT** the report generation. DO NOT proceed to Step 3 and DO NOT generate "fluff" or empty analysis without REAL JSON output from `nansen-cli`.
+
 1. **Macro Fund Flows (Smart Money Netflow)**:
    ```bash
    nansen research smart-money netflow --chain ethereum --limit 5 --timeframe 24h --pretty
@@ -68,151 +72,171 @@ The Agent must execute a series of Nansen CLI commands to capture macro narrativ
 - *(Note: If any command fails or returns empty, gracefully skip that section or replace it with alternative available data from Nansen CLI).*
 
 ### Step 3: Data Synthesis & Content Optimization (Template Selection)
-The Agent must synthesize the data into a professional report. 
+The Agent must synthesize the data into a professional, highly engaging, and beautifully formatted report.
 
 **CRITICAL FORMATTING RULES:**
-- Adopt the tone of a **Senior Crypto Researcher**.
+- Adopt the tone of a **Senior Crypto Researcher**. Provide real insights, not just raw numbers.
 - Format large numbers elegantly (e.g., `$1.23M`, `$500K`).
-- **NO MARKDOWN:** Binance Square's API `bodyTextOnly` does NOT support Markdown. You MUST NOT use syntax like `**bold**`, `*italic*`, or `### headers`. Use emojis and plain text spacing only.
+- **NO MARKDOWN:** Binance Square's API `bodyTextOnly` does NOT support Markdown. You MUST NOT use syntax like `**bold**`, `*italic*`, or `### headers`. Use emojis and plain text spacing only to create visual hierarchy.
+- **ANTI-HALLUCINATION RULE:** NEVER make up data. If Nansen CLI returns no data for a specific query, you MUST gracefully abort and inform the user.
 
-**RANDOM TEMPLATE SELECTION:**
-To keep the content fresh, the Agent MUST randomly choose among **FIVE** different deeply analytical templates based on what data is most interesting today. If a specific project is queried, default to Template E.
+**DAILY RANDOM TEMPLATE SELECTION:**
+To ensure Binance Square followers receive fresh and diverse content, the Agent MUST randomly select one of the following **FIVE** deeply analytical templates each day. If the user asks for a specific project, default to Template 5.
 
-#### Template A: The Macro Overview (宏观盘面与资金流动)
-*Use this when market data is balanced and you want to show a macro fund flow view.*
+#### Template 1: 🌍 宏观盘面与大盘趋势分析 (Macro Overview)
+*Use this to provide a top-down view of the market based on Smart Money behavior.*
 
 ```text
-📊 链上宏观盘面与资金流动日报
+🌍 Nansen 链上宏观盘面与趋势洞察
 
-🧠 核心宏观洞察
-*(Agent: Synthesize netflow data to write a macro overview. e.g., "今日链上资金呈现明显的『避险』特征，大户正在向稳定币转移...")*
+🧭 今日市场宏观定调
+[Agent: Write a 2-3 sentence engaging summary of the macro market vibe. e.g., 经历了一周的洗盘后，链上数据显示聪明钱（Smart Money）正在悄然改变策略，风险偏好开始出现明显拐点...]
+
+---
+
+🌊 链上资金净流向宏观速览
+🟢 资金避风港 (净流入前三)
+1. $TOKEN_A : 24H 净流入 +$X.XM
+[Agent: 1句话深度点评，为什么资金在流入？]
+2. $TOKEN_B : 24H 净流入 +$X.XM
+[Agent: 1句话深度点评]
+3. $TOKEN_C : 24H 净流入 +$X.XM
+
+🔴 获利了结区 (净流出前三)
+1. $TOKEN_X : 24H 净流出 -$X.XM
+[Agent: 1句话点评抛压来源，是散户恐慌还是巨鲸出货？]
+2. $TOKEN_Y : 24H 净流出 -$X.XM
 
 ---
 
-🌊 资金净流入榜单 (Smart Money 正在买什么)
-🟢 强势吸筹: 
-- $TOKEN_A (净流入 +$1.2M): *(Brief AI analysis on why)*
-- $TOKEN_B (净流入 +$850K)
+🧠 链上周期推演与策略建议
+[Agent: Based on the macro data, what phase of the market are we in? Provide a strategic takeaway.]
 
-🔴 资金流出榜单 (获利盘在抛售什么)
-- $TOKEN_X (净流出 -$2.1M): *(Brief AI analysis)*
+💡 链上数据不代表未来走势，投资需谨慎，DYOR.
+#加密货币 #宏观分析 #SmartMoney #BinanceSquare
+```
 
-🎯 总结与推演
-*(Agent: Provide a 1-sentence prediction for tomorrow based on these flows.)*
+#### Template 2: 🚨 链上数据异动雷达 (Data Anomalies / Whale Movements)
+*Use this when there is a massive outlier, strange whale accumulation, or sudden DEX volume.*
+
+```text
+🚨 Nansen 链上异动雷达：巨鲸与聪明钱的隐秘动作
+
+🕵️‍♂️ 核心异动警报
+[Agent: Hook the reader immediately! e.g., 就在过去 24 小时内，链上监控网络捕捉到极为罕见的资金异动信号！某冷门资产正被 Smart Money 疯狂扫货...]
 
 ---
+
+📈 核心异动标的剖析：$TOKEN_NAME
+- 24H 净流入规模: +$XX.X 万
+- Smart Money 参与度: 共有 X 个高净值地址/机构建仓
+- 所属热门赛道: [Sector]
+
+🔍 异动行为深度解码
+1. 筹码收集特征: [Agent: e.g., 是单笔巨额买入，还是密集的小额定投？]
+2. 链上交互异常: [Agent: e.g., 发现大量新钱包被创建并提取资金到 DEX 购买...]
+3. 潜在催化剂预判: [Agent: e.g., 资金抢跑往往意味着利好将近，可能是主网上线或重大合作发布。]
+
+---
+
+⚠️ 异动风险提示
+此类数据异常往往伴随极高波动率，可能存在“老鼠仓”或短期炒作，请严格控制仓位！
+
+💡 链上数据仅供参考，DYOR.
+#链上异动 #巨鲸追踪 #Crypto #BinanceSquare
+```
+
+#### Template 3: 💸 聪明钱资金流动与持仓追踪 (Smart Money Fund Flow)
+*Use this to highlight exactly what top-tier wallets are buying, holding, and selling.*
+
+```text
+💸 Nansen 聪明钱 (Smart Money) 资金流动日参
+
+👀 跟着最聪明的钱寻找 Alpha
+[Agent: e.g., 散户看情绪，巨鲸看数据。今天我们直接透视胜率最高的 Smart Money 地址，看看他们真金白银都在买什么！]
+
+---
+
+💼 Smart Money 核心建仓榜 (买入榜)
+🥇 $TOKEN_A (强势吸筹)
+- 净流入: +$X.X 万
+- 动作解析: [Agent: Analyze why they are buying. e.g., 机构地址持续逢低买入，显示出极强的中长期信心。]
+
+🥈 $TOKEN_B (新晋标的)
+- 净流入: +$X.X 万
+- 动作解析: [Agent: Analysis]
+
+📉 Smart Money 坚决抛售榜 (逃顶榜)
+💔 $TOKEN_X (高位派发)
+- 净流出: -$X.X 万
+- 动作解析: [Agent: Analyze the sell-off. e.g., 早期获利盘正在密集套现，短期面临巨大抛压。]
+
+---
+
+🎯 聪明钱资金偏好总结
+[Agent: Provide a 1-2 sentence summary of what the smart money is favoring today (e.g., rotating from L1s to DeFi).]
+
 💡 链上数据不代表未来走势，DYOR.
-#SmartMoney #Crypto #链上分析 #BinanceSquare
+#SmartMoney #资金流向 #价值发现 #BinanceSquare
 ```
 
-#### Template B: The Deep Dive Anomaly (数据异动雷达)
-*Use this when you spot a massive outlier, a strange token movement, or highly suspicious Smart Money behavior.*
+#### Template 4: 🔄 热门叙事与板块轮动 (Trending Narratives & Sector Rotation)
+*Use this when the market is clearly favoring a specific sector (e.g., AI, DeSci, GameFi).*
 
 ```text
-🚨 链上数据异动雷达: $TOKEN_NAME 资金异动！
+🔄 Nansen 热门叙事追踪：资金正在涌入哪个赛道？
 
-🕵️‍♂️ 异动警报
-*(Agent: Hook the reader by explaining the anomaly immediately. e.g., "在最新的数据中发现，一个不知名代币 $XYZ 正在被 Smart Money 疯狂吸筹，24小时净流入高达 $5.4M！")*
+🔥 今日最强风口：[Sector_Name] 赛道
+[Agent: e.g., 资金永不眠！今日链上数据显示，大额资金正在疯狂涌入 AI 与 DeSci 赛道，旧叙事遭抛弃，新王正在诞生...]
+
+---
+
+📊 赛道内部资金博弈全景
+🟢 吸血龙头 (领涨先锋)
+- $TOKEN_A: 作为赛道绝对核心，独占鳌头，吸纳了超过 X% 的板块净流入资金。
+- $TOKEN_B: 紧随其后，凭借 [具体原因/特性] 受到聪明钱青睐。
+
+🔴 资金流出 (被抽血标的)
+- $TOKEN_X: 曾经的热门，今日遭遇大规模抛售，资金正在向上述龙头转移。
+
+🔮 叙事周期与轮动推演
+[Agent: Analyze the lifecycle of this narrative. e.g., 目前该板块仍处于早期爆发阶段，但需警惕获利盘的短期回踩...]
 
 ---
 
-📈 核心异动数据解构
-- 净流入规模: +$XX.X 万
-- Smart Money 参与度: 共有 X 个聪明钱地址建仓。
-- 异动板块: [Token_Sector]
-
-🧠 深度追踪与行为分析
-*(Agent: Dive deep into THIS SPECIFIC token. Why are they buying? Provide a critical analysis based on the specific anomalies.)*
-- 异动特征1: [Detail from data]
-- 异动特征2: [Detail from data]
-
-⚠️ 风险提示: 此类异常吸筹往往伴随极高波动，可能存在老鼠仓行为，请控制仓位。
-
----
 💡 链上数据不代表未来走势，DYOR.
-#SmartMoney #Crypto #BinanceSquare
+#叙事轮动 #热点追踪 #Crypto #BinanceSquare
 ```
 
-#### Template C: The Sector Rotation Focus (热门叙事与板块轮动)
-*Use this when you notice money flowing heavily into or out of a specific SECTOR (e.g., AI, GameFi, Memes, DeSci).*
+#### Template 5: 🔬 热门项目/事件全面深度解析 (Comprehensive Project Deep Dive)
+*Use this when the user asks about a SPECIFIC project, or when a single project is dominating the crypto space today.*
 
 ```text
-🔄 热门叙事与板块轮动追踪: [Sector_Name] 赛道正在爆发？
-
-🔥 赛道热度扫描
-*(Agent: Focus the narrative purely on a specific sector. e.g., "AI 赛道今日迎来链上资金的大规模换手，旧龙头资金流出，而新叙事正在吸引聪明钱...")*
-
----
-
-📊 板块内资金博弈详解
-🟢 领涨龙头 (吸血效应): 
-- $TOKEN_A: 净流入居首，巨鲸持续买入。
-- $TOKEN_B: 持有者结构趋于集中。
-
-🔴 资金流出 (高位兑现): 
-- $TOKEN_X: 遭遇抛压，Smart Money 减仓。
-
-💡 叙事周期推演
-*(Agent: Predict if this sector rotation is a short-term hype or a long-term trend.)*
-
----
-#SmartMoney #SectorRotation #Crypto #BinanceSquare
-```
-
-#### Template D: The Degen Explorer (热门早期合约/探狗)
-*Use this heavily relying on the `profiler contract-interactions` data to find very early stage projects or new NFTs.*
-
-```text
-🐾 链上金狗前瞻: Smart Money 正在高频交互什么？
-
-🔍 前线侦察
-*(Agent: "抛开已经拉飞的代币，我们来看看过去 24 小时，链上最聪明的资金都在往哪些新合约里钻...")*
-
----
-
-🔥 高频交互合约榜单
-1️⃣ [Contract_Name_1]
-- 交互特征: 过去24H新增 X 次交互。
-- 资金研判: 疑似新型 DeFi 协议/土狗盘，处于极早期阶段。
-
-2️⃣ [Contract_Name_2]
-- 交互特征: 资金交互频率稳定上升。
-- 资金研判: [Brief description of what this contract might be doing].
-
-⚠️ 早期合约风险极高，极易遇到貔貅盘或 RUG，仅作链上行为观察，绝非投资建议！
-
----
-#SmartMoney #Degen #Onchain #BinanceSquare
-```
-
-#### Template E: The Comprehensive Project Deep Dive (单个项目全面透视)
-*Use this when the user asks about a SPECIFIC project, or when one project dominates the daily data. It provides a 360-degree view of a single entity.*
-
-```text
-🔬 链上项目深度透视: 全面解析 [Project_Name]
+🔬 Nansen 链上深度透视：全面解析 [Project_Name]
 
 📖 项目基本面速览
-*(Agent: 1-2 sentences explaining what the project does based on your knowledge or Nansen tags.)*
+[Agent: 1-2 sentences clearly explaining what the project does. No fluff, just facts.]
 
 ---
 
-📊 链上真实数据表现
-- Smart Money 参与度: [X] 个聪明钱地址已建仓
-- 资金净流入 (24h/7d): +$[X]
-- 活跃交互合约: [Contract/Dex pairs if any]
+📊 链上真实数据多维表现
+1. 资金流向 (24H/7D): 净流入/流出达到 $[X]
+2. 聪明钱 (Smart Money) 参与度: 共有 [X] 个高优地址已完成建仓/减仓
+3. 合约活跃度: [Agent: Mention if contract interactions are surging or dying down]
 
-🧠 核心面与技术面推演
-*(Agent: Provide a structured analysis of the project's current state based on the data.)*
-- 市场信号: 数据显示目前资金... (e.g., 呈现明显的早期吸筹特征)
-- 潜在催化剂: (What might be driving this flow? e.g., upcoming mainnet, airdrop snapshot)
+🧠 核心基本面与技术面推演
+- 资金情绪面: [Agent: e.g., 数据显示目前资金呈现明显的“左侧潜伏”特征，机构吸筹意愿强烈。]
+- 潜在催化剂: [Agent: What's next? e.g., 即将到来的主网升级 / 潜在的空投快照 / 重大合作。]
 
-🛡️ 风险与阻力位分析
-- 筹码集中度: (Are top holders selling?)
-- 流动性风险: (Is the DEX liquidity too thin?)
+🛡️ 阻力与风险评估
+- 筹码集中度: [Agent: Are top holders dumping or accumulating?]
+- 核心风险点: [Agent: e.g., 需警惕早期投资者的代币解锁抛压。]
 
 ---
-💡 链上数据不代表未来走势，DYOR.
-#SmartMoney #CryptoAnalysis #BinanceSquare
+📌 总结定调：[Agent: A final, objective verdict on the project based strictly on data.]
+
+💡 链上数据不代表未来走势，投资需谨慎，DYOR.
+#项目分析 #价值投资 #链上投研 #BinanceSquare
 ```
 
 ### Step 4: User Confirmation
